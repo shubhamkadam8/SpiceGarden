@@ -2,13 +2,20 @@ import sqlite3
 from pathlib import Path
 
 
+# =====================================================
+# DATABASE PATH
+# =====================================================
+
 BASE_DIR = Path(__file__).resolve().parent
 
 DATABASE_FILE = BASE_DIR / "bookings.db"
 
 
-def get_connection():
+# =====================================================
+# DATABASE CONNECTION
+# =====================================================
 
+def get_connection():
     connection = sqlite3.connect(
         DATABASE_FILE
     )
@@ -17,6 +24,10 @@ def get_connection():
 
     return connection
 
+
+# =====================================================
+# CREATE TABLE
+# =====================================================
 
 def create_table():
 
@@ -43,27 +54,6 @@ def create_table():
         )
         """
     )
-
-    # Check old database
-    columns = connection.execute(
-        "PRAGMA table_info(bookings)"
-    ).fetchall()
-
-    column_names = [
-        column["name"]
-        for column in columns
-    ]
-
-    # Add status if old database doesn't have it
-    if "status" not in column_names:
-
-        connection.execute(
-            """
-            ALTER TABLE bookings
-            ADD COLUMN status TEXT
-            DEFAULT 'pending'
-            """
-        )
 
     connection.commit()
 

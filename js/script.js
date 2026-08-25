@@ -1,219 +1,223 @@
-const API_URL = "https://inventorytracker-kqco.onrender.com";
+
+// =====================================================
+// SPICE GARDEN API
+// =====================================================
+
+// IMPORTANT:
+// Replace this with your actual Spice Garden
+// Render backend URL.
+//
+// Example:
+// const API_URL = "https://spice-garden-api-xxxx.onrender.com";
+
+const API_URL = "YOUR_SPICE_GARDEN_RENDER_URL";
 
 
 // =====================================================
-// DOM READY
+// BOOKING FORM
 // =====================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    const bookingForm =
-        document.getElementById("bookingForm");
+        const bookingForm =
+            document.getElementById(
+                "bookingForm"
+            );
 
-    const bookingMessage =
-        document.getElementById("bookingMessage");
-
-
-    // =================================================
-    // CHECK BOOKING FORM
-    // =================================================
-
-    if (!bookingForm) {
-
-        console.error(
-            "Booking form not found"
-        );
-
-        return;
-    }
+        const bookingMessage =
+            document.getElementById(
+                "bookingMessage"
+            );
 
 
-    // =================================================
-    // BOOKING SUBMIT
-    // =================================================
+        if (!bookingForm) {
 
-    bookingForm.addEventListener(
-        "submit",
-        async function (event) {
+            console.error(
+                "Booking form not found"
+            );
 
-            event.preventDefault();
+            return;
+        }
 
 
-            // =========================================
-            // GET FORM DATA
-            // =========================================
+        bookingForm.addEventListener(
+            "submit",
+            async function (event) {
 
-            const bookingData = {
+                event.preventDefault();
 
-                name:
-                    document
-                        .getElementById("name")
-                        .value
-                        .trim(),
 
-                phone:
-                    document
-                        .getElementById("phone")
-                        .value
-                        .trim(),
+                // =========================================
+                // GET FORM DATA
+                // =========================================
 
-                date:
-                    document
-                        .getElementById("date")
-                        .value,
+                const bookingData = {
 
-                time:
-                    document
-                        .getElementById("time")
-                        .value,
-
-                guests:
-                    Number(
+                    name:
                         document
-                            .getElementById("guests")
+                            .getElementById("name")
                             .value
-                    )
+                            .trim(),
 
-            };
+                    phone:
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim(),
 
+                    date:
+                        document
+                            .getElementById("date")
+                            .value,
 
-            // =========================================
-            // VALIDATION
-            // =========================================
+                    time:
+                        document
+                            .getElementById("time")
+                            .value,
 
-            if (!bookingData.name) {
+                    guests:
+                        Number(
+                            document
+                                .getElementById("guests")
+                                .value
+                        )
 
-                bookingMessage.textContent =
-                    "Please enter your name.";
-
-                return;
-            }
-
-
-            if (!bookingData.phone) {
-
-                bookingMessage.textContent =
-                    "Please enter your phone number.";
-
-                return;
-            }
-
-
-            if (!bookingData.date) {
-
-                bookingMessage.textContent =
-                    "Please select a date.";
-
-                return;
-            }
+                };
 
 
-            if (!bookingData.time) {
+                // =========================================
+                // VALIDATION
+                // =========================================
 
-                bookingMessage.textContent =
-                    "Please select a time.";
+                if (!bookingData.name) {
 
-                return;
-            }
+                    bookingMessage.textContent =
+                        "Please enter your name.";
 
-
-            if (
-                !bookingData.guests ||
-                bookingData.guests <= 0
-            ) {
-
-                bookingMessage.textContent =
-                    "Please select number of guests.";
-
-                return;
-            }
-
-
-            // =========================================
-            // LOADING MESSAGE
-            // =========================================
-
-            bookingMessage.textContent =
-                "Sending booking...";
-
-
-            try {
-
-                // =====================================
-                // SEND REQUEST TO RENDER BACKEND
-                // =====================================
-
-                const response =
-                    await fetch(
-                        `${API_URL}/bookings`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    bookingData
-                                )
-                        }
-                    );
-
-
-                // =====================================
-                // READ RESPONSE
-                // =====================================
-
-                const result =
-                    await response.json();
-
-
-                // =====================================
-                // CHECK RESPONSE
-                // =====================================
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        result.detail ||
-                        "Booking failed"
-                    );
-
+                    return;
                 }
 
 
-                // =====================================
-                // SUCCESS
-                // =====================================
+                if (!bookingData.phone) {
+
+                    bookingMessage.textContent =
+                        "Please enter your phone number.";
+
+                    return;
+                }
+
+
+                if (!bookingData.date) {
+
+                    bookingMessage.textContent =
+                        "Please select a date.";
+
+                    return;
+                }
+
+
+                if (!bookingData.time) {
+
+                    bookingMessage.textContent =
+                        "Please select a time.";
+
+                    return;
+                }
+
+
+                if (
+                    !bookingData.guests ||
+                    bookingData.guests < 1
+                ) {
+
+                    bookingMessage.textContent =
+                        "Please enter number of guests.";
+
+                    return;
+                }
+
+
+                // =========================================
+                // MESSAGE
+                // =========================================
 
                 bookingMessage.textContent =
-                    `Booking successful! Your booking ID is ${result.booking_id}.`;
+                    "Sending booking...";
 
 
-                // Clear form
-                bookingForm.reset();
+                // =========================================
+                // SEND TO FASTAPI
+                // =========================================
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/bookings`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        bookingData
+                                    )
+                            }
+                        );
 
 
-            } catch (error) {
+                    // =====================================
+                    // READ RESPONSE
+                    // =====================================
 
-                console.error(
-                    "Booking error:",
-                    error
-                );
+                    const result =
+                        await response.json();
 
 
-                // =====================================
-                // ERROR
-                // =====================================
+                    // =====================================
+                    // ERROR
+                    // =====================================
 
-                bookingMessage.textContent =
-                    "Something went wrong. Please try again.";
+                    if (!response.ok) {
+
+                        throw new Error(
+                            result.detail ||
+                            "Booking failed"
+                        );
+                    }
+
+
+                    // =====================================
+                    // SUCCESS
+                    // =====================================
+
+                    bookingMessage.textContent =
+                        `Booking successful! Your booking ID is ${result.booking_id}.`;
+
+
+                    bookingForm.reset();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Booking error:",
+                        error
+                    );
+
+
+                    bookingMessage.textContent =
+                        "Something went wrong. Please try again.";
+                }
 
             }
+        );
 
-        }
-    );
-
-});
+    }
+);
