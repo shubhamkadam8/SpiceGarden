@@ -1,3 +1,4 @@
+const API_URL = "https://your-spice-garden-api.onrender.com";
 document.addEventListener(
     "DOMContentLoaded",
     function () {
