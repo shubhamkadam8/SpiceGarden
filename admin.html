@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Spice Garden - Admin</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #111;
+
+            color: white;
+
+            padding: 30px;
+        }
+
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+
+        /* TOP BAR */
+
+        .admin-topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .admin-title h1 {
+
+            font-size: 32px;
+        }
+
+
+        .admin-title p {
+
+            opacity: 0.6;
+
+            margin-top: 5px;
+        }
+
+
+        #logoutButton {
+
+            padding: 10px 20px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: white;
+
+            color: black;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        #logoutButton:hover {
+
+            opacity: 0.75;
+        }
+
+
+        /* STATS */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .stat-card {
+
+            background: #222;
+
+            padding: 22px;
+
+            border-radius: 12px;
+        }
+
+
+        .stat-card p {
+
+            opacity: 0.6;
+
+            margin-bottom: 10px;
+        }
+
+
+        .stat-card h2 {
+
+            font-size: 30px;
+        }
+
+
+        /* CONTROLS */
+
+        .controls {
+
+            background: #222;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        #searchInput {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #333;
+
+            color: white;
+
+            font-size: 16px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .filters {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .filter-btn {
+
+            border: none;
+
+            background: #333;
+
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .filter-btn.active {
+
+            background: white;
+
+            color: black;
+        }
+
+
+        /* TABLE */
+
+        .table-box {
+
+            background: #222;
+
+            border-radius: 12px;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 900px;
+        }
+
+
+        th,
+        td {
+
+            padding: 15px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid #333;
+        }
+
+
+        th {
+
+            color: #aaa;
+
+            font-size: 14px;
+        }
+
+
+        /* STATUS */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            text-transform: capitalize;
+        }
+
+
+        .pending {
+
+            background: #5a4a20;
+        }
+
+
+        .confirmed {
+
+            background: #204d2a;
+        }
+
+
+        .cancelled {
+
+            background: #542525;
+        }
+
+
+        /* ACTIONS */
+
+        .action-btn {
+
+            border: none;
+
+            padding: 7px 10px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            margin-right: 5px;
+
+            font-size: 12px;
+        }
+
+
+        .confirm-btn {
+
+            background: #2d6a3a;
+
+            color: white;
+        }
+
+
+        .cancel-btn {
+
+            background: #743333;
+
+            color: white;
+        }
+
+
+        .action-btn:hover {
+
+            opacity: 0.8;
+        }
+
+
+        #loading {
+
+            text-align: center;
+
+            padding: 30px;
+
+            opacity: 0.6;
+        }
+
+
+        #emptyMessage {
+
+            text-align: center;
+
+            padding: 40px;
+
+            opacity: 0.6;
+
+            display: none;
+        }
+
+
+        @media (max-width: 900px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+
+            .admin-topbar {
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+
+            .admin-title h1 {
+
+                font-size: 24px;
+            }
+
+
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .filters {
+
+                flex-direction: column;
+            }
+
+
+            .filter-btn {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="admin-topbar">
+
+        <div class="admin-title">
+
+            <h1>
+                Spice Garden
+            </h1>
+
+            <p>
+                Restaurant Booking Dashboard
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="logoutButton">
+
+            Logout
+
+        </button>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <p>Total Bookings</p>
+
+            <h2 id="totalBookings">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <p>Today's Bookings</p>
+
+            <h2 id="todayBookings">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <p>Pending</p>
+
+            <h2 id="pendingBookings">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <p>Confirmed</p>
+
+            <h2 id="confirmedBookings">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <p>Cancelled</p>
+
+            <h2 id="cancelledBookings">
+                0
+            </h2>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="controls">
+
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name or phone..."
+        >
+
+
+        <div class="filters">
+
+
+            <button
+                class="filter-btn active"
+                data-filter="all">
+
+                All
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="today">
+
+                Today
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="pending">
+
+                Pending
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="confirmed">
+
+                Confirmed
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="cancelled">
+
+                Cancelled
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- BOOKINGS -->
+
+    <section class="table-box">
+
+
+        <div id="loading">
+            Loading bookings...
+        </div>
+
+
+        <table id="bookingTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Guests</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="bookingTableBody">
+            </tbody>
+
+        </table>
+
+
+        <div id="emptyMessage">
+            No bookings found.
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+<script src="/admin.js"></script>
+
+</body>
+
+</html>

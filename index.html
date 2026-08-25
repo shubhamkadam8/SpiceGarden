@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Spice Garden</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: #111;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            opacity: 0.7;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            color: white;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* ================= GENERAL ================= */
+
+        section {
+            padding: 100px 8%;
+        }
+
+        button {
+            padding: 14px 25px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* ================= HERO ================= */
+
+        #home {
+            min-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .hero-label {
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        #home h2 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+            opacity: 0.75;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            padding: 14px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .primary-button {
+            background: white;
+            color: black;
+        }
+
+        .secondary-button {
+            border: 1px solid white;
+            color: white;
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            opacity: 0.75;
+        }
+
+        /* ================= MENU ================= */
+
+        #menu {
+            background: #181818;
+            text-align: center;
+        }
+
+        #menu h2,
+        #about h2,
+        #contact h2 {
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        .menu-grid {
+            max-width: 1100px;
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: #222;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .food-image {
+            height: 180px;
+            background: #333;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .menu-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .menu-card strong {
+            font-size: 20px;
+        }
+
+        /* ================= ABOUT ================= */
+
+        #about {
+            text-align: center;
+        }
+
+        #about p {
+            max-width: 700px;
+            margin: auto;
+            opacity: 0.8;
+        }
+
+        /* ================= REVIEWS ================= */
+
+        #reviews {
+            text-align: center;
+            background: #111;
+        }
+
+        .section-label {
+            font-size: 13px;
+            letter-spacing: 3px;
+            opacity: 0.6;
+            margin-bottom: 15px;
+        }
+
+        #reviews h2 {
+            font-size: 40px;
+            margin-bottom: 45px;
+        }
+
+        .review-grid {
+            max-width: 1100px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .review-card {
+            background: #222;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .stars {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .review-card p {
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+
+        .review-card h3 {
+            margin-bottom: 5px;
+        }
+
+        .review-card span {
+            font-size: 14px;
+            opacity: 0.5;
+        }
+
+        /* ================= CONTACT ================= */
+
+        #contact {
+            background: #181818;
+            text-align: center;
+        }
+
+        .contact-description {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.7;
+        }
+
+        .contact-grid {
+            max-width: 1000px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .contact-card {
+            background: #222;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .contact-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .contact-card p {
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .contact-card a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid white;
+            padding-bottom: 4px;
+        }
+
+        /* ================= BOOKING ================= */
+
+        .booking-box {
+            max-width: 600px;
+            margin: 80px auto 0;
+            padding: 35px;
+
+            background: #222;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .booking-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .booking-box > p {
+            opacity: 0.7;
+            margin-bottom: 25px;
+        }
+
+        #bookingForm {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #bookingForm input,
+        #bookingForm select {
+            padding: 14px;
+
+            border: none;
+            border-radius: 6px;
+
+            font-size: 16px;
+
+            background: #333;
+            color: white;
+        }
+
+        #bookingForm button {
+            margin-top: 10px;
+            background: white;
+            color: black;
+        }
+
+        #bookingMessage {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            background: #000;
+            opacity: 0.8;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                position: relative;
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+
+                width: 100%;
+
+                flex-direction: column;
+                text-align: center;
+
+                padding-top: 20px;
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            nav a {
+                padding: 10px;
+            }
+
+            #home h2 {
+                font-size: 38px;
+            }
+
+            section {
+                padding: 70px 5%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 80%;
+                margin: auto;
+            }
+        }
+.admin-login-btn {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    background: #222;
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.admin-login-btn:hover {
+    background: #444;
+}
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1>Spice Garden</h1>
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            type="button">
+            ☰
+        </button>
+
+        <nav id="mainNav">
+
+            <a href="#home">Home</a>
+
+            <a href="#menu">Menu</a>
+
+            <a href="#about">About</a>
+
+            <a href="#reviews">Reviews</a>
+
+            <a href="#contact">Contact</a>
+
+            <a href="/admin-login" class="admin-login-btn">
+    Admin Login
+</a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- ================= HOME ================= -->
+
+        <section id="home">
+
+            <div class="hero-content">
+
+                <p class="hero-label">
+                    WELCOME TO SPICE GARDEN
+                </p>
+
+                <h2>
+                    Authentic Taste.<br>
+                    Memorable Moments.
+                </h2>
+
+                <p class="hero-description">
+                    Experience delicious Indian cuisine,
+                    prepared with fresh ingredients and
+                    traditional flavours.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#menu"
+                        class="primary-button">
+                        View Menu
+                    </a>
+
+                    <a
+                        href="#contact"
+                        class="secondary-button">
+                        Book a Table
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MENU ================= -->
+
+        <section id="menu">
+
+            <h2>Our Menu</h2>
+
+            <div class="menu-grid">
+
+                <div class="menu-card">
+
+                    <div class="food-image">
+                        🍛
+                    </div>
+
+                    <h3>
+                        Chicken Biryani
+                    </h3>
+
+                    <p>
+                        Fragrant basmati rice with
+                        tender chicken and aromatic spices.
+                    </p>
+
+                    <strong>
+                        ₹280
+                    </strong>
+
+                </div>
+
+
+                <div class="menu-card">
+
+                    <div class="food-image">
+                        🍗
+                    </div>
+
+                    <h3>
+                        Chicken Tikka
+                    </h3>
+
+                    <p>
+                        Juicy grilled chicken marinated
+                        with traditional spices.
+                    </p>
+
+                    <strong>
+                        ₹240
+                    </strong>
+
+                </div>
+
+
+                <div class="menu-card">
+
+                    <div class="food-image">
+                        🧀
+                    </div>
+
+                    <h3>
+                        Paneer Tikka
+                    </h3>
+
+                    <p>
+                        Soft paneer grilled with peppers
+                        and Indian spices.
+                    </p>
+
+                    <strong>
+                        ₹220
+                    </strong>
+
+                </div>
+
+
+                <div class="menu-card">
+
+                    <div class="food-image">
+                        🍲
+                    </div>
+
+                    <h3>
+                        Butter Chicken
+                    </h3>
+
+                    <p>
+                        Creamy tomato-based curry
+                        with tender chicken.
+                    </p>
+
+                    <strong>
+                        ₹260
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section id="about">
+
+            <h2>
+                About Spice Garden
+            </h2>
+
+            <p>
+                We serve delicious food made with
+                fresh ingredients for families and friends.
+            </p>
+
+        </section>
+
+
+        <!-- ================= REVIEWS ================= -->
+
+        <section id="reviews">
+
+            <p class="section-label">
+                WHAT OUR GUESTS SAY
+            </p>
+
+            <h2>
+                Made for Good Moments
+            </h2>
+
+            <div class="review-grid">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        “Amazing food and a wonderful
+                        family atmosphere. The biryani
+                        was excellent.”
+                    </p>
+
+                    <h3>
+                        Rahul Patil
+                    </h3>
+
+                    <span>
+                        Local Guide
+                    </span>
+
+                </div>
+
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        “Great service, fresh food and
+                        a beautiful place for dinner
+                        with family.”
+                    </p>
+
+                    <h3>
+                        Priya Joshi
+                    </h3>
+
+                    <span>
+                        Guest
+                    </span>
+
+                </div>
+
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        “One of my favourite places
+                        for Indian food in Kolhapur.”
+                    </p>
+
+                    <h3>
+                        Aditya Shah
+                    </h3>
+
+                    <span>
+                        Guest
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTACT ================= -->
+
+        <section id="contact">
+
+            <p class="section-label">
+                COME VISIT US
+            </p>
+
+            <h2>
+                Let's Make Your Next Meal Special
+            </h2>
+
+            <p class="contact-description">
+                Visit Spice Garden in Kolhapur or
+                contact us to reserve your table.
+            </p>
+
+
+            <div class="contact-grid">
+
+                <div class="contact-card">
+
+                    <h3>
+                        📍 Location
+                    </h3>
+
+                    <p>
+                        Kolhapur, Maharashtra
+                    </p>
+
+                    <a
+                        href="https://www.google.com/maps/search/?api=1&query=Kolhapur"
+                        target="_blank">
+                        Get Directions
+                    </a>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <h3>
+                        📞 Call Us
+                    </h3>
+
+                    <p>
+                        +91 98765 43210
+                    </p>
+
+                    <a href="tel:+919876543210">
+                        Call Now
+                    </a>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <h3>
+                        💬 WhatsApp
+                    </h3>
+
+                    <p>
+                        Chat with us directly
+                    </p>
+
+                    <a
+                        href="https://wa.me/919876543210"
+                        target="_blank">
+                        WhatsApp Us
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= BOOKING ================= -->
+
+            <div class="booking-box">
+
+                <h2>
+                    Book Your Table
+                </h2>
+
+                <p>
+                    Reserve your table at Spice Garden.
+                </p>
+
+
+                <form id="bookingForm">
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Your Name"
+                        required
+                    >
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Phone Number"
+                        required
+                    >
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                    <input
+                        type="time"
+                        id="time"
+                        required
+                    >
+
+                    <select
+                        id="guests"
+                        required>
+
+                        <option value="">
+                            Number of Guests
+                        </option>
+
+                        <option value="1">
+                            1 Guest
+                        </option>
+
+                        <option value="2">
+                            2 Guests
+                        </option>
+
+                        <option value="3">
+                            3 Guests
+                        </option>
+
+                        <option value="4">
+                            4 Guests
+                        </option>
+
+                        <option value="5">
+                            5 Guests
+                        </option>
+
+                        <option value="6">
+                            6 Guests
+                        </option>
+
+                    </select>
+
+
+                    <button type="submit">
+                        Request Booking
+                    </button>
+
+                </form>
+
+
+                <p id="bookingMessage"></p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Spice Garden.
+            All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
