@@ -10,7 +10,7 @@
 // Example:
 // const API_URL = "https://spice-garden-api-xxxx.onrender.com";
 
-const API_URL = "YOUR_SPICE_GARDEN_RENDER_URL";
+const API_URL = "https://spicegarden-2.onrender.com";
 
 
 // =====================================================
@@ -153,23 +153,16 @@ document.addEventListener(
 
                 try {
 
-                    const response =
-                        await fetch(
-                            `${API_URL}/bookings`,
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify(
-                                        bookingData
-                                    )
-                            }
-                        );
+                    const response = await fetch(
+                        `${API_URL}/bookings`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(bookingData)
+                        }
+                    );
 
 
                     // =====================================
